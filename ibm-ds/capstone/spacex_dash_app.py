@@ -10,7 +10,6 @@ import plotly.express as px
 spacex_df = pd.read_csv("spacex_launch_dash.csv")
 max_payload = spacex_df['Payload Mass (kg)'].max()
 min_payload = spacex_df['Payload Mass (kg)'].min()
-print(spacex_df.head())
 launch_sites = set(spacex_df['Launch Site'])
 launch_site_options = [{'label': j, 'value': j} for i, j in enumerate(launch_sites)]
 launch_site_options.insert(0, {'label': 'All Sites', 'value': 'ALL'})

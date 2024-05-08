@@ -14,8 +14,8 @@ launch_sites = set(spacex_df['Launch Site'])
 launch_site_options = [{'label': j, 'value': j} for i, j in enumerate(launch_sites)]
 launch_site_options.insert(0, {'label': 'All Sites', 'value': 'ALL'})
 
-
-
+outcome = {0: 'Failure', 1: 'Success'}
+spacex_df['MissionOutcome'] = spacex_df['class'].replace(outcome)
 # Create a dash application
 app = dash.Dash(__name__)
 
@@ -62,16 +62,17 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
 def get_pie_chart(value):
     filtered_df = spacex_df[spacex_df['Launch Site'] == value]
     if value == 'ALL':
-        fig = px.pie(spacex_df, values='class', 
+        fig = px.pie(spacex_df[spacex_df['class'] == 1], values='class', 
         names='Launch Site', 
-        title='Total Success Launches By Site')
+        title='Total Successful Launches By Site')
+        fig.update_traces(textinfo='value')
         return fig
     else:
         pass
         # return the outcomes piechart for a selected site
         fig = px.pie(filtered_df, 
-        names='class', 
-        title=f'Total Success Launches for site {value}')
+        names='MissionOutcome', 
+        title=f'Launch Outcome Percentages for site {value}')
         return fig
 
 # TASK 4:
